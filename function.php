@@ -18,9 +18,9 @@
     }
 
     function get_weatherIcon($int_weather) {
-        $str_imgTag = '<img src="/assets/img/Frame.png" alt="不明">';
+        $str_imgTag = '<img src="/img/Frame.png" alt="不明">';
         if ($int_weather < 100) {
-            $str_imgTag = '<img src="/assets/img/Frame.png" alt="不明:' . strval($int_weather) .'">';
+            $str_imgTag = '<img src="/img/Frame.png" alt="不明:' . strval($int_weather) .'">';
             return $str_imgTag;
         }
         $str_weather = strval($int_weather);
