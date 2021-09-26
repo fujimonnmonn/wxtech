@@ -84,13 +84,6 @@
             200, //1
             300, //2
             400, //3
-            430, //4
-            500, //5
-            550, //6
-            600, //7
-            650, //8
-            850, //9
-            950, //10
         ];
         $rand_action = [
             "仕事で残業した",           //0
@@ -105,32 +98,38 @@
             $date = date('U', $now);
             $date = new DateTime('@'.$date);
             $time_iso8601 = date_format($date, 'c');
-            $wx = $rand_weather[mt_rand(0,10)];
+            $wx = 0;
             $maxTemp = 0;
             $minTemp = 0;
             $pop = 0;
             $month = intval(date_format($date, 'n'));
             if ($month >= 1 && $month <= 3) {
+                $wx = $rand_weather[mt_rand(0,3)];
                 $maxTemp = mt_rand(10,14);
                 $minTemp = mt_rand(0,5);
                 $pop     = mt_rand(0,70);
             } elseif ($month >= 4 && $month <= 5) {
+                $wx = $rand_weather[mt_rand(0,2)];
                 $maxTemp = mt_rand(17,20);
                 $minTemp = mt_rand(15,17);
                 $pop     = mt_rand(10,70);
             } elseif ($month == 6) {
+                $wx = $rand_weather[mt_rand(1,2)];
                 $maxTemp = mt_rand(17,20);
                 $minTemp = mt_rand(15,17);
                 $pop     = mt_rand(60,100);
             } elseif ($month >= 7 && $month <= 9) {
+                $wx = $rand_weather[mt_rand(0,2)];
                 $maxTemp = mt_rand(27,40);
                 $minTemp = mt_rand(22,26);
                 $pop     = mt_rand(0,70);
             } elseif ($month >= 10 && $month <= 12) {
+                $wx = $rand_weather[mt_rand(0,2)];
                 $maxTemp = mt_rand(17,20);
                 $minTemp = mt_rand(10,14);
                 $pop     = mt_rand(0,70);
             } else {
+                $wx = $rand_weather[mt_rand(0,2)];
                 $maxTemp = mt_rand(20,30);
                 $minTemp = mt_rand(0,16);
                 $pop     = mt_rand(0,70);
@@ -138,7 +137,7 @@
             array_push($rand_ary, 
             [
                 'date'     => $time_iso8601,
-                'wx'       => $rand_weather[mt_rand(0,10)],
+                'wx'       => $wx,
                 'maxTemp'  => $maxTemp,
                 'minTemp'  => $minTemp,
                 'pop'      => $pop,
@@ -153,19 +152,33 @@
             ]);
             $now = strtotime(date('Y-m-d', $now)."+ 1 day");
         }
-        $ary = array(
-            [
-            'date'    => '2021-02-01T00:00:00+09:00',
-            'weather' => 100,
-            'mental1'  => 1,
-            'action1'  => '仕事で残業した',
-            ],
-            ['date'    => '2021-02-02T00:00:00+09:00',
-            'weather' => 200,
-            'mental1'  => 3,
-            'action1'  => 'xxxxxxxxxxxxx',
-            ],
-        );
+        foreach($rand_ary as $old_ary) {
+            if ($old_ary["maxTemp"]-2 <= $f_maxTemp && $f_maxTemp >= $old_ary["maxTemp"]+2) {
+                if ($old_ary["minTemp"]-2 <= $f_minTemp && $f_minTemp >= $old_ary["minTemp"]+2) {
+                    array_push($ary,
+                        [
+                        'date'    => $old_ary["date"],
+                        'weather' => $old_ary["wx"],
+                        'mental1'  => $old_ary["mental1"],
+                        'action1'  => $old_ary["action1"],
+                        ],
+                    );
+                }
+            }
+        }
+        // $ary = array(
+        //     [
+        //     'date'    => '2021-02-01T00:00:00+09:00',
+        //     'weather' => 100,
+        //     'mental1'  => 1,
+        //     'action1'  => '仕事で残業した',
+        //     ],
+        //     ['date'    => '2021-02-02T00:00:00+09:00',
+        //     'weather' => 200,
+        //     'mental1'  => 3,
+        //     'action1'  => 'xxxxxxxxxxxxx',
+        //     ],
+        // );
         //<-dummy
         $obj = json_decode(json_encode($ary));
         return $obj;

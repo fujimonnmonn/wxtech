@@ -150,6 +150,21 @@ $obj_WTInfo = get_wxtechApi(35.17, 136.88);
             <input type="submit" value="保存">
           </div>
         </dl>
+        <?php 
+          $today_action = "";
+          // foreach($posts as $val) {
+          //   if (empty($val['message'] == false) && empty($val['kind'] == false) && empty($val['mental'] == false)) {
+          //     $today_action .= "<dl class='today__action--dl'>";
+          //     $today_action .= "<div class=''>" . $val['kind']. '</div>';
+          //     $today_action .= "<div class=''>" . $val['mental']. '</div>';
+          //     $today_action .= "<div class=''>" . $val['message']. '</div>';
+          //     $today_action .= "</dl>";
+          //   }
+          // }
+          // if ($today_action != "") {
+          //   echo $today_action;
+          // }
+        ?>
       </form>
       <div class="SPACER--100"></div>
     </div>
@@ -170,11 +185,11 @@ $obj_WTInfo = get_wxtechApi(35.17, 136.88);
       </tr>
       <?php
         //dummy->
-        $int_weather = 100;
-        $f_maxTemp = 30;
-        $f_minTemp = 20;
-        $int_pop = 30;
-        $int_action = 1;
+        $int_weather = $obj_WTInfo->wxdata[0]->mrf[0]->wx;
+        $f_maxTemp   = $obj_WTInfo->wxdata[0]->mrf[0]->maxtemp;
+        $f_minTemp   = $obj_WTInfo->wxdata[0]->mrf[0]->mintemp;
+        $int_pop     = $obj_WTInfo->wxdata[0]->mrf[0]->pop;
+        $int_action  = 1;
         //<-dummy
         $obj_SIM = get_similarWeather($int_weather, $f_maxTemp, $f_minTemp, $int_pop, $int_action);
         $int_maxCount = count($obj_SIM);
